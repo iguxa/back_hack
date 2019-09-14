@@ -18,21 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::group(
-    [
-        'prefix' =>'api',
-        'middleware'=>'api'
-    ]
-    , function () {
-    Route::get('auth', [
-        'as' => 'api.auth.index',
-        'uses' => 'Auth\ApiController@index',
-        'namespace'=>'Auth'
-    ]);
-    Route::resource('chat', 'Chat\ChatController');
-// append
 
-});
 /*Route::group([
     'middleware' => ['web', 'installChecker'],
     'namespace'  => 'App\Http\Controllers',
