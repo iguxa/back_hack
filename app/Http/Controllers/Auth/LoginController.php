@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -35,5 +38,26 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+    public function GetApiToken()
+    {
+            $token = hash('sha256', Str::random(60));
+            $this->guard()->user()->forceFill([
+                'api_token' => $token,
+            ])->save();
+
+        return $token;
+    }
+    public function isValidToken($token)
+    {
+        $user =  User::where('api_token', $token)->limit(1)->first();
+        if($user){
+            Auth::loginUsingId($user->id);
+        }
+        return $user;
+    }
+    public function Valid($request)
+    {
+        return $this->attemptLogin($request);
     }
 }
