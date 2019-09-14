@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Hash;
 class ApiController extends Controller
 {
     protected $users;
-    protected $user;
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +20,6 @@ class ApiController extends Controller
     public function __construct(User $users)
     {
         $this->users = $users;
-       // $this->user = Auth::user();
 
     }
 
@@ -63,7 +61,9 @@ class ApiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = $this->users->findOrFail($id);
+        $user->update($request->all());
+        return $user;
     }
 
     /**
@@ -74,6 +74,7 @@ class ApiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->users->destroy($id);
+        return response()->json(['Message'=>'Delete Success']);
     }
 }
