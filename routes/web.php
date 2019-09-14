@@ -27,9 +27,9 @@ Route::group(
     Route::get('auth', [
         'as' => 'api.auth.index',
         'uses' => 'Auth\ApiController@index',
-        //'middleware' => 'can:expert.experts.index',
         'namespace'=>'Auth'
     ]);
+    Route::resource('chat', 'Chat\ChatController');
 // append
 
 });
