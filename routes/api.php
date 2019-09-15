@@ -26,6 +26,7 @@ Route::group(
     Route::get('roles', 'Auth\Api\ApiController@roles')->name('user.roles');
     Route::resource('chat', 'Chat\ChatController');
     Route::put('votes/{vote}/publish', 'Votes\VotesController@publish')->name('votes.publish');
+    Route::post('votes/{vote}/vote', 'Votes\VotesController@vote')->name('votes.vote');
     Route::resource('votes', 'Votes\VotesController');
     Route::resource('document', 'Document\DocumentController');
 

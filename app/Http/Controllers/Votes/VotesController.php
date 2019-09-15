@@ -118,7 +118,6 @@ class VotesController extends Controller
 
     private function insertMembers($data, $id)
     {
-        $test = 'test';
         VotesMembers::deleteByVoterId($id);
         foreach ($data as $voter) {
             $voter['votes_id'] = $id;
@@ -193,6 +192,47 @@ class VotesController extends Controller
         return response()->json($updated);
     }
 
+    public static function getExampleResponseDataShow()
+    {
+        return array (
+            'id' => 41,
+            'type_id' => '',
+            'state' => '',
+            'q_type' => '',
+            'q_value' => '',
+            'title' => '',
+            'description' => '',
+            'creator' => 1,
+            'arbiter' => '',
+            'publish' => '',
+            'deadline' => '',
+            'created_at' => '2019-09-15 04:38:50',
+            'updated_at' => '2019-09-15 04:38:50',
+            'deleted_at' => '',
+            'votes' =>
+                array (
+                    0 =>
+                        array (
+                            'id' => 11,
+                            'votes_id' => 41,
+                            'user_id' => 47,
+                            'vote_value' => '',
+                            'comment' => '',
+                            'created_at' => '2019-09-15 07:38:50',
+                        ),
+                ),
+        );
+    }
+
+    public static function getDocParametersShow()
+    {
+        return [
+            Parameter::integer('id')->formData(),
+            Parameter::string('email')->header(),
+            Parameter::string('password')->header(),
+            Parameter::string('Authorization')->header(),
+        ];
+    }
     /**
      * Display the specified resource.
      *
@@ -201,7 +241,7 @@ class VotesController extends Controller
      */
     public function show($id)
     {
-        $result = Votes::with('votes')->find($id);
+        $result = Votes::with('votes')->with('docs')->find($id);
         return response()->json($result);
         //
     }
@@ -251,6 +291,21 @@ class VotesController extends Controller
         return response()->json($updated);
     }
 
+    public static function getExampleResponseDataVOte()
+    {
+        return array ();
+    }
+    public static function getDocParametersVote()
+    {
+        return [
+            Parameter::integer('id')->formData(),
+            Parameter::string('comment')->formData(),
+            Parameter::integer('vote_value')->formData(),
+            Parameter::string('email')->header(),
+            Parameter::string('password')->header(),
+            Parameter::string('Authorization')->header(),
+        ];
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -260,5 +315,19 @@ class VotesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function vote(Request $request, $id)
+    {
+        $voteFind = VotesMembers::where('user_id', '=', Auth::user()->id)->where('votes_id', '=', $id)->get();
+        if(!$voteFind->count()){
+            return response()->json();
+        }
+
+        $vote = $voteFind->first();
+        $vote->comment = $request->get('comment');
+        $vote->vote_value = $request->get('vote_value');
+        $vote->save();
+        return response()->json();
     }
 }

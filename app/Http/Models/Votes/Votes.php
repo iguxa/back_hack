@@ -68,4 +68,10 @@ class Votes extends Model
     {
         return $this->hasMany('App\Http\Models\Votes\VotesMembers', 'votes_id', 'id');
     }
+
+
+    public function docs()
+    {
+        return $this->hasMany('App\Http\Models\Votes\VotesDocs', 'vote_id', 'id');
+    }
 }
