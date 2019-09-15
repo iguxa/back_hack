@@ -5,7 +5,6 @@ namespace App\Http\Models\Votes;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use App\Http\Models\Votes\VotesMembers;
 
 /**
  * App\Http\Models\Votes\Votes
@@ -65,8 +64,8 @@ class Votes extends Model
         return self::paginate(20);
     }
 
-    public function comments()
+    public function votes()
     {
-        return $this->hasMany(VotesMembers::class);
+        return $this->hasMany('App\Http\Models\Votes\VotesMembers', 'votes_id', 'id');
     }
 }

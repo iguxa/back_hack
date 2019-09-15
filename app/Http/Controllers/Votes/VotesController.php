@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Votes;
 
 use App\Docs\Parameter;
+use App\Http\Models\Votes\VotesMembers;
 use App\Http\Requests\VoterCreateRequest;
 use App\Http\Requests\VoterPublishRequest;
 use http\Exception;
@@ -25,37 +26,32 @@ class VotesController extends Controller
     public static function getExampleResponseDataIndex()
     {
         return array (
-            'current_page' => 1,
-            'data' =>
+            'id' => 41,
+            'type_id' => NULL,
+            'state' => NULL,
+            'q_type' => NULL,
+            'q_value' => NULL,
+            'title' => NULL,
+            'description' => NULL,
+            'creator' => 1,
+            'arbiter' => NULL,
+            'publish' => NULL,
+            'deadline' => NULL,
+            'created_at' => '2019-09-15 04:38:50',
+            'updated_at' => '2019-09-15 04:38:50',
+            'deleted_at' => NULL,
+            'votes' =>
                 array (
                     0 =>
                         array (
-                            'id' => 1,
-                            'type_id' => 111,
-                            'state' => '',
-                            'q_type' => '',
-                            'q_value' => '',
-                            'title' => '',
-                            'description' => '',
-                            'creator' => '',
-                            'arbiter' => '',
-                            'publish' => '',
-                            'deadline' => '',
-                            'created_at' => '',
-                            'updated_at' => '',
-                            'deleted_at' => '',
-                        )
+                            'id' => 11,
+                            'votes_id' => 41,
+                            'user_id' => 47,
+                            'vote_value' => NULL,
+                            'comment' => NULL,
+                            'created_at' => '2019-09-15 07:38:50',
+                        ),
                 ),
-            'first_page_url' => 'http://vtb-test.ru/api/votes?page=1',
-            'from' => 1,
-            'last_page' => 1,
-            'last_page_url' => 'http://vtb-test.ru/api/votes?page=1',
-            'next_page_url' => '',
-            'path' => 'http://vtb-test.ru/api/votes',
-            'per_page' => 20,
-            'prev_page_url' => '',
-            'to' => 16,
-            'total' => 16,
         );
     }
     public static function getDocParametersIndex()
@@ -91,6 +87,7 @@ class VotesController extends Controller
             Parameter::string('arbiter')->body(),
             Parameter::string('publish')->body(),
             Parameter::string('deadline')->body(),
+            Parameter::string('votes')->body(),
             Parameter::string('email')->header(),
             Parameter::string('password')->header(),
             Parameter::string('Authorization')->header(),
@@ -104,12 +101,29 @@ class VotesController extends Controller
      */
     public function store(VoterCreateRequest $request)
     {
-        $date = $request->all();
+        $data = $request->all();
         $data['state'] = VoterPublishRequest::DRAFT;
-        $result = $this->insertVoter($date);
-        return response()->json($result);
+        $result = $this->insertVoter($data);
+        if(isset($data['voters'])) {
+            $this->insertMembers($data['voters'], $result->id);
+        }
+
+        $updated = Votes::with('votes')->find($result->id);
+        return response()->json($updated);
     }
 
+    private function insertMembers($data, $id)
+    {
+        foreach ($data as $voter) {
+            $voter['votes_id'] = $id;
+            $member = new VotesMembers();
+            if(isset($voter['id'])){
+                $member->update($voter);
+            } else {
+                $member::create($voter);
+            }
+        }
+    }
     private function insertVoter($data, $id = null)
     {
         $vote = new Votes();
@@ -124,7 +138,8 @@ class VotesController extends Controller
         } catch (Exception $e) {
             return [$e->getMessage(), $e->getCode()];
         }
-        return ['id' => $id];
+
+        return Votes::with('votes')->find($id);
     }
 
     public static function getExampleResponseDataPublish()
@@ -146,6 +161,7 @@ class VotesController extends Controller
             Parameter::string('arbiter')->body(),
             Parameter::string('publish')->body(),
             Parameter::string('deadline')->body(),
+            Parameter::string('votes')->body(),
             Parameter::string('email')->header(),
             Parameter::string('password')->header(),
             Parameter::string('Authorization')->header(),
@@ -163,7 +179,12 @@ class VotesController extends Controller
         $date = $request->all();
         $data['status'] = VoterPublishRequest::PUBLISH;
         $result = $this->insertVoter($date, $id);
-        return response()->json($result);
+        if(isset($data['voters'])) {
+            $this->insertMembers($data['voters'], $result->id);
+        }
+
+        $updated = Votes::with('votes')->find($result->id);
+        return response()->json($updated);
     }
 
     /**
@@ -174,7 +195,8 @@ class VotesController extends Controller
      */
     public function show($id)
     {
-        $test = 'test';
+        $result = Votes::with('votes')->find($id);
+        return response()->json($result);
         //
     }
 
@@ -197,6 +219,7 @@ class VotesController extends Controller
             Parameter::string('arbiter')->body(),
             Parameter::string('publish')->body(),
             Parameter::string('deadline')->body(),
+            Parameter::string('votes')->body(),
             Parameter::string('email')->header(),
             Parameter::string('password')->header(),
             Parameter::string('Authorization')->header(),
@@ -214,7 +237,12 @@ class VotesController extends Controller
         $date = $request->all();
         $data['state'] = VoterPublishRequest::DRAFT;
         $result = $this->insertVoter($date, $id);
-        return response()->json($result);
+        if(isset($data['voters'])) {
+            $this->insertMembers($data['voters'], $result->id);
+        }
+
+        $updated = Votes::with('votes')->find($result->id);
+        return response()->json($updated);
     }
 
     /**

@@ -28,6 +28,8 @@ class VotesMembers extends Model
 {
     protected $table = 'votes_members';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'votes_id',
         'user_id',
