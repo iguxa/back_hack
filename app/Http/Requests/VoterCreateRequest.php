@@ -25,7 +25,6 @@ class VoterCreateRequest extends FormRequest
         return [
             'title'=>'max:255|nullable',
             'description'=>'max:64000|nullable',
-            'name'=>'string|max:500|nullable',
             'state'=>'integer|nullable',
             'q_type'=>'integer|nullable',
             'q_value'=>'integer|nullable',

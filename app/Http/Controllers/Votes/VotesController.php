@@ -44,23 +44,6 @@ class VotesController extends Controller
                             'created_at' => NULL,
                             'updated_at' => NULL,
                             'deleted_at' => NULL,
-                        ),
-                    1 =>
-                        array (
-                            'id' => 2,
-                            'type_id' => 222,
-                            'state' => NULL,
-                            'q_type' => NULL,
-                            'q_value' => NULL,
-                            'title' => NULL,
-                            'description' => NULL,
-                            'creator' => NULL,
-                            'arbiter' => NULL,
-                            'publish' => NULL,
-                            'deadline' => NULL,
-                            'created_at' => NULL,
-                            'updated_at' => NULL,
-                            'deleted_at' => NULL,
                         )
                 ),
             'first_page_url' => 'http://vtb-test.ru/api/votes?page=1',
@@ -101,7 +84,6 @@ class VotesController extends Controller
         return [
             Parameter::string('title')->formData(),
             Parameter::string('description')->formData(),
-            Parameter::string('name')->formData(),
             Parameter::string('state')->formData(),
             Parameter::string('q_type')->formData(),
             Parameter::string('q_value')->formData(),
@@ -123,6 +105,7 @@ class VotesController extends Controller
     public function store(VoterCreateRequest $request)
     {
         $date = $request->all();
+        $data['state'] = VoterPublishRequest::DRAFT;
         $result = $this->insertVoter($date);
         return response()->json($result);
     }
@@ -157,7 +140,6 @@ class VotesController extends Controller
             Parameter::integer('id')->formData(),
             Parameter::string('title')->formData(),
             Parameter::string('description')->formData(),
-            Parameter::string('name')->formData(),
             Parameter::string('state')->formData(),
             Parameter::string('q_type')->formData(),
             Parameter::string('q_value')->formData(),
@@ -209,7 +191,6 @@ class VotesController extends Controller
             Parameter::integer('id')->formData(),
             Parameter::string('title')->formData(),
             Parameter::string('description')->formData(),
-            Parameter::string('name')->formData(),
             Parameter::string('state')->formData(),
             Parameter::string('q_type')->formData(),
             Parameter::string('q_value')->formData(),
@@ -232,6 +213,7 @@ class VotesController extends Controller
     public function update(Request $request, $id)
     {
         $date = $request->all();
+        $data['state'] = VoterPublishRequest::DRAFT;
         $result = $this->insertVoter($date, $id);
         return response()->json($result);
     }

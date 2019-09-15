@@ -32,7 +32,6 @@ class VoterPublishRequest extends FormRequest
         return [
             'title'=>'max:255',
             'description'=>'max:64000',
-            'name'=>'string|max:500',
             'state'=>'integer|nullable',
             'q_type'=>'integer|nullable',
             'q_value'=>'integer|nullable',
