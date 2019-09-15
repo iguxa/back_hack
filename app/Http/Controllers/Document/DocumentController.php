@@ -106,11 +106,14 @@ class DocumentController extends Controller
     public function store(Request $request)
     {
         Validator::make($request->all(), [
-            'vote_id'=>'integer|required|max:10',
-            'path'=>'required|string|max:500',
-            'file' => 'required|max:10000'
+            'vote_id'=>'integer|max:10',
+            'path'=>'string|max:500',
+            'file' => 'string|max:10000'
         ])->validate();
         $file = $request->only('file');
+        if(!$file) {
+            return false;
+        }
         Storage::disk('upload')->put($file, 'Contents');
         return Document::create($request->all());
     }

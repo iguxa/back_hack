@@ -112,7 +112,7 @@ class VotesController extends Controller
         $document = new DocumentController();
         $document->store($request);
 
-        $updated = Votes::with('votes')->find($result->id);
+        $updated = Votes::with('votes')->with('docs')->find($result->id);
         return response()->json($updated);
     }
 
@@ -133,12 +133,12 @@ class VotesController extends Controller
     {
         $vote = new Votes();
         try{
-            $date['creator'] = Auth::user()->id;
+            $data['creator'] = Auth::user()->id;
             if($id){
-                $date['id'] = $id;
-                $vote->update($date);
+                $data['id'] = $id;
+                $vote->update($data);
             } else {
-                $id = $vote::create($date)->getAttribute('id');
+                $id = $vote::create($data)->getAttribute('id');
             }
         } catch (Exception $e) {
             return [$e->getMessage(), $e->getCode()];
