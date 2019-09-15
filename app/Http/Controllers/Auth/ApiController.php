@@ -8,10 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ApiController extends Controller
 {
-    public function __construct()
-    {
-        //$test = 1;
-    }
+
     public function index()
     {
 

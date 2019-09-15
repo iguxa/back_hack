@@ -49,7 +49,32 @@ class ApiController extends Controller
     public static function getExampleResponseDataIndex()
     {
         return array (
-            'token'=>'fd10b23a93ea7a96ddb8377160716a3afcc1e6d507909c80fb21154d7b3b21a7',
+            'current_page' => 1,
+            'data' =>
+                array (
+                    0 =>
+                        array (
+                            'id' => 1,
+                            'name' => 'iguxa',
+                            'email' => 'tsybykov@bk.ru',
+                            'email_verified_at' => NULL,
+                            'role' => '0',
+                            'api_token' => 'e919fd18d31449931db7c0b0ae9246cedf3c4ab6abf9c21c152f95ad1a5e3af3',
+                            'created_at' => '2019-09-14 15:19:49',
+                            'updated_at' => '2019-09-15 03:28:49',
+                            'deleted_at' => NULL,
+                        ),
+                ),
+            'first_page_url' => 'http://back_hack.ru/api/user?page=1',
+            'from' => 1,
+            'last_page' => 1,
+            'last_page_url' => 'http://back_hack.ru/api/user?page=1',
+            'next_page_url' => NULL,
+            'path' => 'http://back_hack.ru/api/user',
+            'per_page' => 2,
+            'prev_page_url' => NULL,
+            'to' => 1,
+            'total' => 1,
         );
     }
     public static function getDocParametersIndex()
@@ -60,9 +85,10 @@ class ApiController extends Controller
             Parameter::string('Authorization')->header(),
         ];
     }
+
     public function index()
     {
-        return ['token'=>Auth::user()->api_token];
+        return $this->users->paginate(2);
     }
     /**
      * Store a newly created resource in storage.
@@ -180,5 +206,23 @@ class ApiController extends Controller
     public function roles() :? array
     {
         return $this->users->getRoles();
+    }
+    public static function getExampleResponseDataToken()
+    {
+        return array (
+            'token'=>'fd10b23a93ea7a96ddb8377160716a3afcc1e6d507909c80fb21154d7b3b21a7',
+        );
+    }
+    public static function getDocParametersToken()
+    {
+        return [
+            Parameter::string('email')->header(),
+            Parameter::string('password')->header(),
+            Parameter::string('Authorization')->header(),
+        ];
+    }
+    public function token()
+    {
+        return ['token'=>Auth::user()->api_token];
     }
 }
