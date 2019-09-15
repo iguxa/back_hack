@@ -21,9 +21,10 @@ Route::group(
     [
     ]
     , function () {
-    Route::get('roles', 'Auth\Api\ApiController@roles');
-    Route::resource('chat', 'Chat\ChatController');
+    Route::get('token', 'Auth\Api\ApiController@token')->name('user.token');
     Route::resource('user', 'Auth\Api\ApiController');
+    Route::get('roles', 'Auth\Api\ApiController@roles')->name('user.roles');
+    Route::resource('chat', 'Chat\ChatController');
     Route::put('votes/{vote}/publish', 'Votes\VotesController@publish')->name('votes.publish');
     Route::resource('votes', 'Votes\VotesController');
 
