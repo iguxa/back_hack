@@ -32,18 +32,18 @@ class HomeController extends Controller
 });*/
 
         // Your Account SID and Auth Token from twilio.com/console
-        $account_sid = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-        $auth_token = 'your_auth_token';
+        //$account_sid = 'ACdc888d95e32d019a3fb50f5f3aa471b7';
+        $auth_token = '8a0e66f7e3f43489d5fc811567893518';
 // In production, these should be environment variables. E.g.:
 // $auth_token = $_ENV["TWILIO_AUTH_TOKEN"]
 
 // A Twilio number you own with SMS capabilities
-        $twilio_number = "+15017122661";
+        $twilio_number = "+12052094740";
 
         $client = new Client($account_sid, $auth_token);
         $client->messages->create(
         // Where to send a text message (your cell phone?)
-            '+15558675310',
+            '+79772506135',
             array(
                 'from' => $twilio_number,
                 'body' => 'I sent this message in under 10 minutes!'
