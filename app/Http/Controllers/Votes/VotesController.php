@@ -25,19 +25,53 @@ class VotesController extends Controller
     public static function getExampleResponseDataIndex()
     {
         return array (
-            'current_page' => 2,
+            'current_page' => 1,
             'data' =>
                 array (
+                    0 =>
+                        array (
+                            'id' => 1,
+                            'type_id' => 111,
+                            'state' => NULL,
+                            'q_type' => NULL,
+                            'q_value' => NULL,
+                            'title' => NULL,
+                            'description' => NULL,
+                            'creator' => NULL,
+                            'arbiter' => NULL,
+                            'publish' => NULL,
+                            'deadline' => NULL,
+                            'created_at' => NULL,
+                            'updated_at' => NULL,
+                            'deleted_at' => NULL,
+                        ),
+                    1 =>
+                        array (
+                            'id' => 2,
+                            'type_id' => 222,
+                            'state' => NULL,
+                            'q_type' => NULL,
+                            'q_value' => NULL,
+                            'title' => NULL,
+                            'description' => NULL,
+                            'creator' => NULL,
+                            'arbiter' => NULL,
+                            'publish' => NULL,
+                            'deadline' => NULL,
+                            'created_at' => NULL,
+                            'updated_at' => NULL,
+                            'deleted_at' => NULL,
+                        )
                 ),
             'first_page_url' => 'http://vtb-test.ru/api/votes?page=1',
-            'from' => '',
+            'from' => 1,
             'last_page' => 1,
             'last_page_url' => 'http://vtb-test.ru/api/votes?page=1',
-            'next_page_url' => '',
+            'next_page_url' => NULL,
             'path' => 'http://vtb-test.ru/api/votes',
             'per_page' => 20,
-            'prev_page_url' => 'http://vtb-test.ru/api/votes?page=1',
-            'to' => '',
+            'prev_page_url' => NULL,
+            'to' => 16,
             'total' => 16,
         );
     }
