@@ -41,8 +41,10 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            //todo try to fix corps
              \App\Http\Middleware\ApiAuth::class,
-            HandleCors::class
+            HandleCors::class,
+            \Spatie\Cors\Cors::class
         ],
     ];
 

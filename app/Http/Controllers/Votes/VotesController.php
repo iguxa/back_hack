@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Votes;
 
 use App\Docs\Parameter;
+use App\Http\Controllers\Contact\ContactController;
 use App\Http\Controllers\Document\DocumentController;
 use App\Http\Models\Votes\VotesMembers;
 use App\Http\Requests\VoterCreateRequest;
@@ -109,12 +110,16 @@ class VotesController extends Controller
         if(isset($data['voters'])) {
             $this->insertMembers($data['voters'], $result->id);
         }
-
         $document = new DocumentController();
         $document->store($request);
 
         $updated = Votes::with('votes')->with('docs')->find($result->id);
         return response()->json($updated);
+    }
+
+    private function makeContact($method,array $data)
+    {
+        new ContactController($method,$data);
     }
 
     private function insertMembers($data, $id)
@@ -191,6 +196,10 @@ class VotesController extends Controller
         $result = $this->insertVoter($date, $id);
         if(isset($data['voters'])) {
             $this->insertMembers($data['voters'], $result->id);
+        }
+
+        foreach (['contactSms','contactMail'] as $method){
+            $this->makeContact($method,$data['voters']);
         }
 
         $updated = Votes::with('votes')->find($result->id);
