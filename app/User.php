@@ -76,10 +76,10 @@ class User extends Authenticatable
     ];
 
     protected static $roles = [
-        ['id'=>0,'group'=>'administrator'],
-        ['id'=>1,'group'=>'organization'],
-        ['id'=>2,'group'=>'users'],
-        ['id'=>3,'group'=>'guest'],
+        ['id'=>1,'group'=>'administrator'],
+        ['id'=>2,'group'=>'organization'],
+        ['id'=>3,'group'=>'users'],
+        ['id'=>4,'group'=>'guest'],
     ];
 
     public function getApiToken()
