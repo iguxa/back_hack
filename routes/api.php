@@ -24,7 +24,9 @@ Route::group(
     Route::get('roles', 'Auth\Api\ApiController@roles');
     Route::resource('chat', 'Chat\ChatController');
     Route::resource('user', 'Auth\Api\ApiController');
+    Route::put('votes/{vote}/publish', 'Votes\VotesController@publish')->name('votes.publish');
     Route::resource('votes', 'Votes\VotesController');
+
 
 // append
 
