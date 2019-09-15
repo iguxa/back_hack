@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
 
 Route::group(
     [
@@ -27,7 +27,7 @@ Route::group(
     Route::resource('chat', 'Chat\ChatController');
     Route::put('votes/{vote}/publish', 'Votes\VotesController@publish')->name('votes.publish');
     Route::resource('votes', 'Votes\VotesController');
-
+    Route::resource('document', 'Document\DocumentController');
 
 // append
 
