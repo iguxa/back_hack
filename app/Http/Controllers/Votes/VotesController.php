@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Votes;
 
 use App\Docs\Parameter;
+use App\Http\Controllers\Document\DocumentController;
 use App\Http\Models\Votes\VotesMembers;
 use App\Http\Requests\VoterCreateRequest;
 use App\Http\Requests\VoterPublishRequest;
@@ -107,6 +108,9 @@ class VotesController extends Controller
         if(isset($data['voters'])) {
             $this->insertMembers($data['voters'], $result->id);
         }
+
+        $document = new DocumentController();
+        $document->store($request);
 
         $updated = Votes::with('votes')->find($result->id);
         return response()->json($updated);
