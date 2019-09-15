@@ -5,6 +5,7 @@ namespace App\Http\Models\Votes;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use App\Http\Models\Votes\VotesMembers;
 
 /**
  * App\Http\Models\Votes\Votes
@@ -62,5 +63,10 @@ class Votes extends Model
     public static function getAllWithPaginate(): LengthAwarePaginator
     {
         return self::paginate(20);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(VotesMembers::class);
     }
 }

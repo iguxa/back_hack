@@ -27,4 +27,11 @@ use Illuminate\Database\Eloquent\Model;
 class VotesMembers extends Model
 {
     protected $table = 'votes_members';
+
+    protected $fillable = [
+        'votes_id',
+        'user_id',
+        'vote_value',
+        'comment'
+    ];
 }

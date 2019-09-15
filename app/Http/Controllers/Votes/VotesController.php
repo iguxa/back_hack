@@ -110,11 +110,10 @@ class VotesController extends Controller
         return response()->json($result);
     }
 
-    private function insertVoter($request, $id = null)
+    private function insertVoter($data, $id = null)
     {
         $vote = new Votes();
         try{
-            $date = $request->all();
             $date['creator'] = Auth::user()->id;
             if($id){
                 $id = $date['id'];
@@ -162,7 +161,7 @@ class VotesController extends Controller
     public function publish(VoterPublishRequest $request, $id)
     {
         $date = $request->all();
-        $data['status'] = '';
+        $data['status'] = VoterPublishRequest::PUBLISH;
         $result = $this->insertVoter($date, $id);
         return response()->json($result);
     }
