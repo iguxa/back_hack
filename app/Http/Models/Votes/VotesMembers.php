@@ -3,6 +3,7 @@
 namespace App\Http\Models\Votes;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * App\Http\Models\Votes\VotesMembers
@@ -36,4 +37,8 @@ class VotesMembers extends Model
         'vote_value',
         'comment'
     ];
+
+    public static function deleteByVoterId($id) {
+        DB::table('votes_members')->where('votes_id', '=', $id)->delete();
+    }
 }

@@ -78,16 +78,16 @@ class VotesController extends Controller
     public static function getDocParametersStore()
     {
         return [
-            Parameter::string('title')->body(),
-            Parameter::string('description')->body(),
-            Parameter::string('state')->body(),
-            Parameter::string('q_type')->body(),
-            Parameter::string('q_value')->body(),
-            Parameter::string('type_id')->body(),
-            Parameter::string('arbiter')->body(),
-            Parameter::string('publish')->body(),
-            Parameter::string('deadline')->body(),
-            Parameter::string('votes')->body(),
+            Parameter::string('title')->formData(),
+            Parameter::string('description')->formData(),
+            Parameter::string('state')->formData(),
+            Parameter::string('q_type')->formData(),
+            Parameter::string('q_value')->formData(),
+            Parameter::string('type_id')->formData(),
+            Parameter::string('arbiter')->formData(),
+            Parameter::string('publish')->formData(),
+            Parameter::string('deadline')->formData(),
+            Parameter::string('votes')->formData(),
             Parameter::string('email')->header(),
             Parameter::string('password')->header(),
             Parameter::string('Authorization')->header(),
@@ -114,6 +114,8 @@ class VotesController extends Controller
 
     private function insertMembers($data, $id)
     {
+        $test = 'test';
+        VotesMembers::deleteByVoterId($id);
         foreach ($data as $voter) {
             $voter['votes_id'] = $id;
             $member = new VotesMembers();
@@ -130,7 +132,7 @@ class VotesController extends Controller
         try{
             $date['creator'] = Auth::user()->id;
             if($id){
-                $id = $date['id'];
+                $date['id'] = $id;
                 $vote->update($date);
             } else {
                 $id = $vote::create($date)->getAttribute('id');
@@ -151,17 +153,17 @@ class VotesController extends Controller
     public static function getDocParametersPublish()
     {
         return [
-            Parameter::integer('id')->body(),
-            Parameter::string('title')->body(),
-            Parameter::string('description')->body(),
-            Parameter::string('state')->body(),
-            Parameter::string('q_type')->body(),
-            Parameter::string('q_value')->body(),
-            Parameter::string('type_id')->body(),
-            Parameter::string('arbiter')->body(),
-            Parameter::string('publish')->body(),
-            Parameter::string('deadline')->body(),
-            Parameter::string('votes')->body(),
+            Parameter::integer('id')->formData(),
+            Parameter::string('title')->formData(),
+            Parameter::string('description')->formData(),
+            Parameter::string('state')->formData(),
+            Parameter::string('q_type')->formData(),
+            Parameter::string('q_value')->formData(),
+            Parameter::string('type_id')->formData(),
+            Parameter::string('arbiter')->formData(),
+            Parameter::string('publish')->formData(),
+            Parameter::string('deadline')->formData(),
+            Parameter::string('votes')->formData(),
             Parameter::string('email')->header(),
             Parameter::string('password')->header(),
             Parameter::string('Authorization')->header(),
@@ -209,17 +211,17 @@ class VotesController extends Controller
     public static function getDocParametersUpdate()
     {
         return [
-            Parameter::integer('id')->body(),
-            Parameter::string('title')->body(),
-            Parameter::string('description')->body(),
-            Parameter::string('state')->body(),
-            Parameter::string('q_type')->body(),
-            Parameter::string('q_value')->body(),
-            Parameter::string('type_id')->body(),
-            Parameter::string('arbiter')->body(),
-            Parameter::string('publish')->body(),
-            Parameter::string('deadline')->body(),
-            Parameter::string('votes')->body(),
+            Parameter::integer('id')->formData(),
+            Parameter::string('title')->formData(),
+            Parameter::string('description')->formData(),
+            Parameter::string('state')->formData(),
+            Parameter::string('q_type')->formData(),
+            Parameter::string('q_value')->formData(),
+            Parameter::string('type_id')->formData(),
+            Parameter::string('arbiter')->formData(),
+            Parameter::string('publish')->formData(),
+            Parameter::string('deadline')->formData(),
+            Parameter::string('votes')->formData(),
             Parameter::string('email')->header(),
             Parameter::string('password')->header(),
             Parameter::string('Authorization')->header(),
@@ -234,9 +236,9 @@ class VotesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $date = $request->all();
+        $data = $request->all();
         $data['state'] = VoterPublishRequest::DRAFT;
-        $result = $this->insertVoter($date, $id);
+        $result = $this->insertVoter($data, $id);
         if(isset($data['voters'])) {
             $this->insertMembers($data['voters'], $result->id);
         }
