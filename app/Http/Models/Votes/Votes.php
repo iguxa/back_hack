@@ -59,8 +59,12 @@ class Votes extends Model
         'deadline'
     ];
 
-    public static function getAllWithPaginate(): LengthAwarePaginator
+    public static function getAllWithPaginate($params): LengthAwarePaginator
     {
+        if(isset($params['state']))
+        {
+            return self::where('state', '=', $params['state'])->paginate(20);
+        }
         return self::paginate(20);
     }
 

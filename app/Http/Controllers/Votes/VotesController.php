@@ -59,6 +59,7 @@ class VotesController extends Controller
     {
         return [
             Parameter::integer('page')->query(),
+            Parameter::integer('state')->query(),
             Parameter::string('email')->header(),
             Parameter::string('password')->header(),
             Parameter::string('Authorization')->header(),
@@ -66,7 +67,7 @@ class VotesController extends Controller
     }
     public function index(Request $request)
     {
-        $data = Votes::getAllWithPaginate();
+        $data = Votes::getAllWithPaginate($request->all());
         return response()->json($data);
     }
 
@@ -129,6 +130,10 @@ class VotesController extends Controller
             }
         }
     }
+
+    /**
+     * Inserting Voter data
+     */
     private function insertVoter($data, $id = null)
     {
         $vote = new Votes();
