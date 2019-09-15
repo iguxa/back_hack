@@ -176,4 +176,9 @@ class ApiController extends Controller
         $this->users->destroy($id);
         return response()->json(['Message'=>'Delete Success']);
     }
+
+    public function roles() :? array
+    {
+        return $this->users->getRoles();
+    }
 }

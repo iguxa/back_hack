@@ -75,8 +75,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected static $roles = [
+        ['id'=>0,'group'=>'administrator'],
+        ['id'=>1,'group'=>'organization'],
+        ['id'=>2,'group'=>'users'],
+        ['id'=>3,'group'=>'guest'],
+    ];
+
     public function getApiToken()
     {
         return $this->api_token;
+    }
+    public function getRoles()
+    {
+        return static::$roles;
     }
 }

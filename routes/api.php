@@ -21,9 +21,11 @@ Route::group(
     [
     ]
     , function () {
+    Route::get('roles', 'Auth\Api\ApiController@roles');
     Route::resource('chat', 'Chat\ChatController');
-    //Route::resource('user', 'Auth\Api\ApiController');
+    Route::resource('user', 'Auth\Api\ApiController');
     Route::resource('votes', 'Votes\VotesController');
+
 // append
 
 });
