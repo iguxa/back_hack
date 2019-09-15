@@ -228,4 +228,11 @@ return [
 
     ],
 
+
+    'doc' => [
+        'host' => env('DOC_HOST', 'localhost'),
+        'title' => env('DOC_TITLE', 'Api'),
+        'version' => env('DOC_VERSION', '1.0.0'),
+        'file' => storage_path('api-docs').'/api-docs.json',
+    ]
 ];

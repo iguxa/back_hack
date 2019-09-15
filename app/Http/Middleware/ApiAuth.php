@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Docs\Parameter;
 use App\Http\Controllers\Auth\LoginController;
 use Closure;
 use Illuminate\Http\Request;
@@ -41,5 +42,13 @@ class ApiAuth
     protected function isValidToken($token)
     {
        return $this->login_service->isValidToken($token);
+    }
+    public static function getDocParameters()
+    {
+        return [
+            Parameter::string('email')->header(),
+            Parameter::string('password')->header(),
+            Parameter::string('Authorization')->header(),
+        ];
     }
 }
