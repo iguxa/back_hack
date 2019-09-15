@@ -4,6 +4,7 @@ namespace App\Http\Models\Votes;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 /**
  * App\Http\Models\Votes\Votes
@@ -44,6 +45,19 @@ use Illuminate\Database\Eloquent\Model;
 class Votes extends Model
 {
     protected $table = 'votes';
+
+    protected $fillable = [
+        'description',
+        'state',
+        'q_type',
+        'q_value',
+        'type_id',
+        'creator',
+        'arbiter',
+        'publish',
+        'title',
+        'deadline'
+    ];
 
     public static function getAllWithPaginate(): LengthAwarePaginator
     {

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Votes;
 
+use App\Http\Requests\VoterCreateRequest;
+use http\Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Votes\Votes;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class VotesController extends Controller
 {
@@ -25,12 +28,20 @@ class VotesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param VoterCreateRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(VoterCreateRequest $request)
     {
-        //
+        $vote = new Votes();
+        try{
+            $date = $request->all();
+            $date['creator'] = Auth::user()->id;
+            $vote::create($date);
+        } catch (Exception $e) {
+            return response()->json([$e->getMessage(), $e->getCode()]);
+        }
+        return response()->json();
     }
 
     /**
